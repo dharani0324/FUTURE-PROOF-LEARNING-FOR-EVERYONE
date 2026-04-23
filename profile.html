@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="page-header" style="margin-bottom: 2rem; text-align: center;">
+    <h2>My Profile</h2>
+    <p>Update your academic details to improve your AI placement prediction.</p>
+</div>
+
+<div class="panel max-w-lg mx-auto">
+    <form method="POST" action="{{ url_for('profile') }}">
+        <div class="grid-2-col">
+            <div class="form-group">
+                <label>10th Marks (%)</label>
+                <input type="number" name="tenth_marks" value="{{ user.tenth_marks }}" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>12th Marks (%)</label>
+                <input type="number" name="twelfth_marks" value="{{ user.twelfth_marks }}" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>UG Marks (%)</label>
+                <input type="number" name="ug_marks" value="{{ user.ug_marks }}" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Mock Test Score (Out of 100)</label>
+                <input type="number" name="mock_test_score" value="{{ user.mock_test_score }}" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Attendance (%)</label>
+                <input type="number" name="attendance" value="{{ user.attendance }}" step="0.1">
+            </div>
+            <div class="form-group">
+                <label>Resume Strength (1-10)</label>
+                <input type="number" name="resume_strength" value="{{ user.resume_strength }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Skills (comma separated)</label>
+            <input type="text" name="skills" value="{{ user.skills }}">
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Save Profile</button>
+    </form>
+</div>
+{% endblock %}

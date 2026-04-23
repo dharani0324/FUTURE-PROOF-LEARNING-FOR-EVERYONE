@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ mentor.name }} - FutureProof{% endblock %}
+{% block content %}
+<div class="container" style="max-width:700px">
+    <div class="card" style="text-align:center;margin-bottom:2rem">
+        <span class="emoji" style="font-size:4rem">{{ mentor.image_url }}</span>
+        <h1>{{ mentor.name }}</h1>
+        <p style="color:var(--primary);margin:.5rem 0">{{ mentor.specialty }}</p>
+        <p>{{ mentor.bio }}</p>
+    </div>
+    {% if session.get('user_id') %}
+    <div class="card">
+        <h3>Request Mentorship</h3>
+        <form method="POST" action="{{ url_for('request_mentor', mid=mentor.id) }}">
+            <div class="form-group" style="margin-top:1rem">
+                <label>Your message</label>
+                <textarea name="message" rows="4" placeholder="Tell the mentor what you'd like help with..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Request</button>
+        </form>
+    </div>
+    {% else %}
+    <div class="card" style="text-align:center"><p><a href="{{ url_for('login') }}">Login</a> to request mentorship.</p></div>
+    {% endif %}
+</div>
+{% endblock %}

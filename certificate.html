@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Certificate - FutureProof{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="certificate">
+        <p style="font-size:1rem;color:var(--text-muted);letter-spacing:3px;text-transform:uppercase">Certificate of Completion</p>
+        <h1>🏆 Future Proof Learning</h1>
+        <p style="margin-top:2rem;font-size:1rem;color:var(--text-muted)">This certifies that</p>
+        <p class="name">{{ user.name }}</p>
+        <p style="font-size:1rem;color:var(--text-muted)">has successfully completed</p>
+        <p class="course-name" style="margin:1rem 0">{{ course.title }}</p>
+        <p style="color:var(--text-muted);font-size:.9rem">Date: {{ date }}</p>
+    </div>
+    <div style="text-align:center;margin-top:1.5rem" class="no-print">
+        <button onclick="window.print()" class="btn btn-primary">🖨 Print / Download PDF</button>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline" style="margin-left:.5rem">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

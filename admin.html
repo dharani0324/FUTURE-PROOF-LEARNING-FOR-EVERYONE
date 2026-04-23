@@ -1,0 +1,99 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h2>Admin Dashboard</h2>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <h3>{{ stats.users }}</h3>
+        <p>Total Students</p>
+    </div>
+    <div class="stat-card">
+        <h3>{{ stats.courses }}</h3>
+        <p>Total Courses</p>
+    </div>
+    <div class="stat-card">
+        <h3>{{ stats.drives }}</h3>
+        <p>Total Drives</p>
+    </div>
+</div>
+
+<div class="dashboard-grid">
+    <div class="panel">
+        <h3>Create Placement Drive</h3>
+        <form method="POST" action="{{ url_for('admin_dashboard') }}">
+            <div class="grid-2-col">
+                <div class="form-group">
+                    <label>Company Name</label>
+                    <input type="text" name="company_name" required>
+                </div>
+                <div class="form-group">
+                    <label>Salary (LPA)</label>
+                    <input type="number" step="0.1" name="salary" required>
+                </div>
+                <div class="form-group">
+                    <label>Min 10th %</label>
+                    <input type="number" step="0.1" name="min_10th" required>
+                </div>
+                <div class="form-group">
+                    <label>Min 12th %</label>
+                    <input type="number" step="0.1" name="min_12th" required>
+                </div>
+                <div class="form-group">
+                    <label>Min UG %</label>
+                    <input type="number" step="0.1" name="min_ug" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Create Drive</button>
+        </form>
+    </div>
+
+    <div class="panel">
+        <h3>Existing Drives</h3>
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead><tr><th>Company</th><th>Salary</th><th>Actions</th></tr></thead>
+                <tbody>
+                    {% for d in drives %}
+                    <tr>
+                        <td>{{ d.company_name }}</td>
+                        <td>{{ d.salary }} LPA</td>
+                        <td><a href="{{ url_for('download_csv', drive_id=d.id) }}" class="btn btn-outline" style="font-size: 0.8rem; padding: 0.3rem 0.6rem;">Download Eligible CSV</a></td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="3">No drives created yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="panel" style="grid-column: 1 / -1;">
+        <h3>Student Applications</h3>
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Company</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in applications %}
+                    <tr>
+                        <td>{{ app.student_name }}</td>
+                        <td>{{ app.company }}</td>
+                        <td><span class="badge">{{ app.status }}</span></td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="3">No applications yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

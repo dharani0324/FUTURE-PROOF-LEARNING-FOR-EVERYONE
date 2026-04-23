@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Future Proof Learning{% endblock %}</title>
+    <meta name="description" content="Future Proof Learning for Everyone - Modern online learning platform">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <a href="{{ url_for('home') }}" class="logo">🎓 FutureProof</a>
+        <nav>
+            <a href="{{ url_for('courses') }}">Courses</a>
+            <a href="{{ url_for('mentors') }}">Mentors</a>
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <div class="notif-dropdown">
+                    <a href="#" id="notif-toggle">🔔{% if unread_count %}<span class="notif-badge">{{ unread_count }}</span>{% endif %}</a>
+                    <div class="notif-list" id="notif-list">
+                        {% if notifications %}
+                            {% for n in notifications %}
+                            <div class="notif-item {{ 'unread' if not n.is_read }}">
+                                {{ n.message }}<br><span class="time">{{ n.created_at[:16] }}</span>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="notif-item">No notifications</div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if session.get('is_admin') %}<a href="{{ url_for('admin_dashboard') }}">Admin</a>{% endif %}
+                <a href="{{ url_for('logout') }}" class="btn-nav">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="btn-nav">Login</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="container" style="padding-bottom:0">
+            {% for cat, msg in messages %}
+            <div class="flash flash-{{ cat }}">{{ msg }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

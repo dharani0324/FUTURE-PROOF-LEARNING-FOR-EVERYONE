@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}{{ course.title }} - FutureProof{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card" style="margin-bottom:2rem">
+        <span class="emoji">{{ course.image_url }}</span>
+        <h1>{{ course.title }}</h1>
+        <p style="margin:.75rem 0">{{ course.description }}</p>
+        <div class="meta"><span>⏱ {{ course.duration }}</span><span>📖 {{ course.lessons }} lessons</span></div>
+        {% if not session.get('user_id') %}
+            <a href="{{ url_for('login') }}" class="btn btn-primary" style="margin-top:1rem">Login to Enroll</a>
+        {% elif not enrolled %}
+            <form method="POST" action="{{ url_for('enroll', cid=course.id) }}" style="margin-top:1rem">
+                <button type="submit" class="btn btn-primary">Enroll Now</button>
+            </form>
+        {% else %}
+            {% set pct = (lessons_done|length / course.lessons * 100)|int if course.lessons else 0 %}
+            <div style="margin-top:1rem">
+                <div class="progress-bar"><div class="fill" style="width:{{ pct }}%"></div></div>
+                <p style="font-size:.85rem;margin-top:.4rem">{{ lessons_done|length }}/{{ course.lessons }} completed ({{ pct }}%)</p>
+            </div>
+            {% if pct >= 100 %}
+                <a href="{{ url_for('certificate', cid=course.id) }}" class="btn btn-success" style="margin-top:1rem">🏆 View Certificate</a>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    {% if enrolled %}
+    <h2 style="margin-bottom:1rem">Lessons</h2>
+    <ul class="lesson-list">
+        {% for i in range(1, course.lessons + 1) %}
+        <li class="{{ 'done' if i in lessons_done }}">
+            <span>📖 Lesson {{ i }}{% if i in lessons_done %} ✅{% endif %}</span>
+            {% if i not in lessons_done %}
+            <form method="POST" action="{{ url_for('complete_lesson', cid=course.id, lnum=i) }}">
+                <button type="submit" class="btn btn-success btn-sm">Mark Complete</button>
+            </form>
+            {% else %}
+            <span style="color:var(--success);font-size:.85rem">Completed</span>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="page-header" style="margin-bottom: 2rem; text-align: center;">
+    <h2>Available Courses</h2>
+    <p>Enhance your skills with our expert-curated content.</p>
+</div>
+
+<div class="filter-bar" style="margin-bottom: 2rem; text-align: center; background: var(--surface); padding: 1.5rem; border-radius: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+    <form method="GET" action="{{ url_for('courses') }}" style="display: flex; gap: 1rem; justify-content: center; align-items: center; flex-wrap: wrap;">
+        <label style="font-weight: 600; color: var(--text-main);">Filter by Degree:</label>
+        <select name="degree" class="form-control" style="padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid var(--border); font-size: 1rem; min-width: 200px; outline: none;">
+            <option value="All" {% if selected_degree == 'All' %}selected{% endif %}>All courses</option>
+            <option value="Engineering" {% if selected_degree == 'Engineering' %}selected{% endif %}>Engineering</option>
+            <option value="Arts" {% if selected_degree == 'Arts' %}selected{% endif %}>Arts</option>
+            <option value="Science" {% if selected_degree == 'Science' %}selected{% endif %}>Science</option>
+            <option value="BSc" {% if selected_degree == 'BSc' %}selected{% endif %}>BSc</option>
+        </select>
+        <button type="submit" class="btn btn-primary" style="padding: 0.75rem 1.5rem;">Apply Filter</button>
+    </form>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 1.25rem;">
+    {% for course in courses %}
+    <div class="card" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; padding: 1.5rem;">
+        <div style="flex: 1;">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                <h3 style="margin: 0; font-size: 1.2rem; color: #111827;">{{ course.title }}</h3>
+                <span class="badge" style="background: var(--bg-color); color: var(--text-main); border: 1px solid var(--border);">{{ course.degree }}</span>
+            </div>
+            <p style="color: var(--text-muted); margin-bottom: 0.75rem; font-size: 0.95em;">{{ course.description }}</p>
+            <div style="display: flex; gap: 1.5rem; font-size: 0.85em; color: var(--text-muted);">
+                <span><i class="fa-solid fa-user" style="color: var(--primary);"></i> {{ course.mentor_name }}</span>
+                <span><i class="fa-solid fa-clock"></i> {{ course.duration }}</span>
+            </div>
+        </div>
+        <div style="margin-left: 2rem;">
+            {% if course.id in enrolled %}
+                <button class="btn btn-disabled" disabled style="min-width: 140px; padding: 0.75rem; border-radius: 0.5rem;">Enrolled</button>
+            {% else %}
+                <a href="{{ url_for('enroll', course_id=course.id) }}" class="btn btn-primary" style="display: inline-block; min-width: 140px; padding: 0.75rem; text-align: center; border-radius: 0.5rem;">Enroll Now</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

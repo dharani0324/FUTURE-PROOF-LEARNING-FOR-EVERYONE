@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="page-header" style="margin-bottom: 2rem; text-align: center;">
+    <h2>My Certificates</h2>
+    <p>View and download your earned certificates for completed courses.</p>
+</div>
+
+<div class="grid-container">
+    {% for course in courses %}
+    <div class="card text-center" style="align-items: center; padding-top: 1.5rem;">
+        <div class="card-body" style="width: 100%;">
+            <div style="margin-bottom: 1rem; color: var(--success);">
+                <i class="fa-solid fa-certificate fa-4x"></i>
+            </div>
+            <h3 style="margin-bottom: 10px;">{{ course.title }}</h3>
+            <p style="color: var(--text-muted); font-size: 0.9em; margin-bottom: 5px;">Completed by: <strong style="color: black;">{{ user.name }}</strong></p>
+            <p style="color: var(--text-muted); font-size: 0.9em;">Date: {{ course.completed_date }}</p>
+        </div>
+        <div class="card-footer" style="width: 100%;">
+            <a href="{{ url_for('download_certificate', course_id=course.id) }}" class="btn btn-primary btn-full"><i class="fa-solid fa-download"></i> Download PDF</a>
+        </div>
+    </div>
+    {% else %}
+    <div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 3rem; background: var(--surface); border-radius: 1rem;">
+        <i class="fa-solid fa-box-open fa-3x" style="margin-bottom: 1rem;"></i>
+        <h3>No Certificates Yet</h3>
+        <p>Complete your enrolled courses to earn certificates.</p>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-primary" style="margin-top: 1rem;">Go to Dashboard</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

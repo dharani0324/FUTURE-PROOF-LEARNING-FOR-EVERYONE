@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if course else 'Add' }} Course - Admin{% endblock %}
+{% block content %}
+<div class="container" style="max-width:600px">
+    <div class="card">
+        <h2>{{ 'Edit' if course else 'Add New' }} Course</h2>
+        <form method="POST" style="margin-top:1.5rem">
+            <div class="form-group"><label>Title</label><input type="text" name="title" value="{{ course.title if course else '' }}" required></div>
+            <div class="form-group"><label>Description</label><textarea name="description" rows="4" required>{{ course.description if course else '' }}</textarea></div>
+            <div class="form-group"><label>Icon (emoji)</label><input type="text" name="image_url" value="{{ course.image_url if course else '📘' }}"></div>
+            <div class="form-group"><label>Duration</label><input type="text" name="duration" value="{{ course.duration if course else '4 weeks' }}"></div>
+            <div class="form-group"><label>Number of Lessons</label><input type="number" name="lessons" value="{{ course.lessons if course else 10 }}" min="1"></div>
+            <button type="submit" class="btn btn-primary btn-block">{{ 'Update' if course else 'Create' }} Course</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

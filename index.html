@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="hero">
+    <h1>Future Proof Your Career Today</h1>
+    <p>Learn new skills, connect with mentors, and secure your dream job.</p>
+    <div class="hero-actions">
+        <a href="{{ url_for('register') }}" class="btn btn-primary btn-large">Get Started</a>
+        <a href="{{ url_for('login') }}" class="btn btn-secondary btn-large" style="color: black;">Login</a>
+    </div>
+</div>
+<div class="features-grid">
+    <div class="feature-card">
+        <i class="fa-solid fa-book-open"></i>
+        <h3>Top Courses</h3>
+        <p>Expert-led courses in advanced technologies.</p>
+    </div>
+    <div class="feature-card">
+        <i class="fa-solid fa-user-group"></i>
+        <h3>Mentorship</h3>
+        <p>1-on-1 guidance from industry professionals.</p>
+    </div>
+    <div class="feature-card">
+        <i class="fa-solid fa-briefcase"></i>
+        <h3>Placements</h3>
+        <p>Direct placement opportunities with top tier companies.</p>
+    </div>
+</div>
+{% endblock %}

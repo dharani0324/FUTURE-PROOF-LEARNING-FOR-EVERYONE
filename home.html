@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Future Proof Learning for Everyone{% endblock %}
+{% block content %}
+<section class="hero">
+    <h1>Future Proof Learning<br>for Everyone</h1>
+    <p>Master in-demand skills with expert mentors, AI-powered insights, and gamified learning paths.</p>
+    {% if session.get('user_id') %}
+        <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
+    {% else %}
+        <a href="{{ url_for('register') }}" class="btn btn-primary" style="margin-right:1rem">Get Started Free</a>
+        <a href="{{ url_for('login') }}" class="btn btn-outline" style="border-color:#fff;color:#fff">Login</a>
+    {% endif %}
+</section>
+<div class="container">
+    <div class="stats-row" style="margin-top:2rem">
+        <div class="stat-card"><div class="stat-icon">📚</div><div class="stat-value">6+</div><div class="stat-label">Courses</div></div>
+        <div class="stat-card"><div class="stat-icon">🧑‍🏫</div><div class="stat-value">4+</div><div class="stat-label">Expert Mentors</div></div>
+        <div class="stat-card"><div class="stat-icon">🤖</div><div class="stat-value">AI</div><div class="stat-label">Risk Prediction</div></div>
+        <div class="stat-card"><div class="stat-icon">🏆</div><div class="stat-value">Certs</div><div class="stat-label">On Completion</div></div>
+    </div>
+</div>
+{% endblock %}

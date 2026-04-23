@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="page-header" style="margin-bottom: 2rem; text-align: center;">
+    <h2>Placement Drives</h2>
+    <p>Apply for upcoming company drives based on your eligibility.</p>
+</div>
+
+<div class="grid-container">
+    {% for drive in drives %}
+    <div class="card">
+        <div class="card-body">
+            <h3>{{ drive.company_name }}</h3>
+            <p class="salary" style="font-size: 1.25rem; font-weight: 600; color: var(--success); margin: 10px 0;">
+                <i class="fa-solid fa-indian-rupee-sign"></i> {{ drive.salary }} LPA
+            </p>
+            <div class="criteria" style="margin-top: 15px;">
+                <h4 style="margin-bottom: 5px;">Eligibility:</h4>
+                <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9em; color: var(--text-muted);">
+                    <li>10th: >= {{ drive.min_10th }}%</li>
+                    <li>12th: >= {{ drive.min_12th }}%</li>
+                    <li>UG: >= {{ drive.min_ug }}%</li>
+                </ul>
+            </div>
+            {% set eligible = user.tenth_marks >= drive.min_10th and user.twelfth_marks >= drive.min_12th and user.ug_marks >= drive.min_ug %}
+            {% if not eligible %}
+                <div class="alert alert-danger" style="margin-top:15px; font-size:0.85em; padding: 0.5rem;">Not Eligible based on profile criteria.</div>
+            {% endif %}
+        </div>
+        <div class="card-footer">
+            {% if drive.id in applications %}
+                <button class="btn btn-disabled btn-full" disabled>Applied</button>
+            {% elif eligible %}
+                <a href="{{ url_for('apply_drive', drive_id=drive.id) }}" class="btn btn-success btn-full">Apply Now</a>
+            {% else %}
+                <button class="btn btn-disabled btn-full" disabled>Apply Now</button>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
